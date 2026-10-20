@@ -41,7 +41,7 @@ measurably blunted the sharper ball cues.
 
 **Tempo normalisation.** Mean player speed is the main dead-ball cue, but players tire: the median
 falls from about 2.1 m/s early to about 1.0–1.3 m/s late, and a fixed threshold labelled up to
-65 % of some late 5-minute blocks dead. Speed is therefore rescaled by a rolling 75th percentile
+about 70 % of some late 5-minute blocks dead. Speed is therefore rescaled by a rolling 75th percentile
 (±4 min, per half) so the threshold means the same thing at minute 5 and minute 85.
 
 **Broadcast ball fill.** The broadcast ATD is on another clock, but within each half it is a constant

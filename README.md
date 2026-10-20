@@ -197,6 +197,15 @@ competition only, under the terms you accept at enrolment.
 
 ## Team Bytes of Africa — solution
 
+**Team members**
+
+| Name | GitHub |
+|---|---|
+| Godfrey Brew Ntiamoah | [@godfreybrew](https://github.com/godfreybrew) |
+| Mudasiru Jallow | [@jallow13](https://github.com/jallow13) |
+| Mikiyas Aregawi Bahre | [@Mickeereg](https://github.com/Mickeereg) |
+| Adam Idris | [@adermgram](https://github.com/adermgram) |
+
 Technical document: [Bytes_of_Africa.md](Bytes_of_Africa.md). Regenerate the submission from the data bundle:
 
 ```bash
