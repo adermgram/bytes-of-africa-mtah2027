@@ -1,0 +1,4 @@
+# Everything `python -m pipeline.run` needs. Pinned to the versions the submission was built with.
+# (matplotlib is only used by exploratory plotting, not by the pipeline.)
+numpy==2.5.3
+pandas==3.0.6

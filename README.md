@@ -192,3 +192,14 @@ competition only, under the terms you accept at enrolment.
   url    = {https://github.com/metrica-sports/more-than-a-hack-2027}
 }
 ```
+
+---
+
+## Team Bytes of Africa — solution
+
+Technical document: [Bytes_of_Africa.md](Bytes_of_Africa.md). Regenerate the submission from the data bundle:
+
+```bash
+pip install -r requirements-solution.txt
+python -m pipeline.run --out evaluation/results/Bytes_of_Africa.csv
+```
