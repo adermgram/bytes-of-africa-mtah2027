@@ -62,3 +62,6 @@ __pycache__/
 venv/
 env/
 .DS_Store
+
+# -- derived data cache (parsed tracking; must not be published, see RULES.md) -----------------
+cache/
