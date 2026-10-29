@@ -16,6 +16,14 @@ def attack_dir(players, team, kickoff_frame, which):
     return 1.0 if own < 0.5 else -1.0
 
 
+def home_dir(players, team):
+    """Per-frame attack direction of the home team (+-1), from the two kickoff positions."""
+    dirH = np.zeros(len(players))
+    dirH[:110000] = attack_dir(players, team, 11185, 0)
+    dirH[110000:] = attack_dir(players, team, 113742, 0)
+    return dirH
+
+
 def team_stats(x, y, mask):
     """x, y (N, S) in metres for the slots in `mask`; per-frame summary of that team."""
     xs, ys = x[:, mask], y[:, mask]
