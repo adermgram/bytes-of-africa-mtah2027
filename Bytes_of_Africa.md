@@ -6,7 +6,8 @@ More than a Hack 2027 · frame-level ball possession, FC Barcelona vs Athletic C
 
 Every graded frame is labelled `H`, `A` or `D` by one deterministic pipeline that uses only the
 provided tracking data (tactical and broadcast ATD) and the Smart Tagging file. It needs numpy and
-pandas, no video, no GPU, and runs in a few minutes from a cold cache (mostly the player-density features) and in seconds once the parsed tracking and features are cached.
+pandas, no video and no GPU. It runs in a few minutes from a cold cache (mostly the player-density
+features) and in seconds once the parsed tracking and features are cached.
 
 The core is a three-state Viterbi segmentation over hand-built evidence. Its main design decision is
 driven by one fact about the data: **the ball is missing on 41 % of graded frames, and 75 % of those
@@ -65,7 +66,7 @@ from 59.3 % to 64.5 %. The gain is small because both feeds usually lose the bal
 | broadcast ATD | ball positions only, aligned to the tactical timeline, as a gap filler |
 | Smart Tagging | `SET PIECES` start times only, as a dead-ball prior. Other codes are phases, not possessions, and `Team` is `N/A` on every throw-in, so they were not used |
 | published facts | half boundaries, kickoff frames, and that the 2nd half is dead (`D`) until the 113,742 kickoff (FAQ) |
-| homography, both videos | **not used.** The tracking-only model already runs in seconds; a ball detector over 199 k frames is the one thing that could cover the long gaps, and is listed under future work |
+| homography, both videos | **not used.** The tracking-only model already runs in minutes on a laptop; a ball detector over 199 k frames is the one thing that could cover the long gaps, and is listed under future work |
 
 Tried and rejected: (a) treating a *short* ball dropout as a stoppage — only 6 % of gaps under 6 s
 overlap a restart, and two of three such gaps in the public window are live play; (b) learning the
@@ -81,8 +82,8 @@ spellF1 on the benchmark of section 5, far inside the noise, so the costs stay c
 
 * A possession is a maximal run of one team with the ball alive; a dead stretch always ends it.
 * During a pass or a loose ball the previous team keeps possession. A hand-over needs sustained
-  evidence (the switching cost), which is a proxy for "controlled" possession; a deflection or a
-  single touch does not flip the label.
+  evidence (the switching cost), which is a proxy for "controlled" possession; a deflection, a
+  single touch or an aerial duel without subsequent control does not flip the label.
 * Dead ball is `D`, never a team. Dead ball is inferred from collective slow-down of the players,
   the ball leaving the pitch, a stationary ball, and the restart tags.
 * No abstentions: every graded frame gets `H`, `A` or `D`. Ungraded frames (before kickoff, halftime,
@@ -130,10 +131,13 @@ bootstrap interval on the paired difference.
 | 84 features, weight 0.5 | 0.668 | +0.020 | +0.008 to +0.031 |
 | 84 features, weight 1.0 (**submitted**) | 0.680 | +0.032 | +0.021 to +0.044 |
 | 84 features, weights 1.25 / 1.5 / 2.0 | 0.669 / 0.673 / 0.670 | +0.022 / +0.026 / +0.022 | all above zero |
-| 84 features, weight 0.25 also where the ball is visible | 0.556 | −0.092 | −0.115 to −0.070 |
+| 84 features, weight 0.75 without the ball and 0.25 where the ball is visible | 0.556 | −0.092 | −0.115 to −0.070 |
 
 The weight sits on a plateau (any value from 0.75 to 2.0 gives +0.02 to +0.03), and using the shape
-model where the ball is visible is clearly harmful. These scores measure how well the ball-based
+model where the ball is visible is clearly harmful. The switching costs were checked on the same
+benchmark with the earlier 45-feature model: 14/20 and 28/35 (H<->A / dead) both scored lower than the
+chosen 20/25 (−0.028 and −0.045, intervals below zero), so the costs are not just a plateau but close
+to the best values we found. They were not re-tuned for the 84-feature model. These scores measure how well the ball-based
 labels are recovered, not agreement with the true labels, so they rank changes to the ball-less
 machinery and are not a result to quote as a score.
 
